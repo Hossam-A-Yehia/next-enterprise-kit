@@ -18,3 +18,6 @@ coverage
 apps/*/.next
 apps/*/out
 packages/*/dist
+
+# Local planning / private notes (not published)
+scale_kit_enterprise_saas_blueprint_md.md
