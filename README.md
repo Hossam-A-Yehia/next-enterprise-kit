@@ -32,16 +32,16 @@ We prioritize **maintainability, modularity, and developer experience**. We deli
 
 ## Current status
 
-| Area | Status |
-|------|--------|
-| Monorepo (npm workspaces + Turborepo) | Implemented |
-| App shell: [`apps/web`](./apps/web) (Next.js App Router + TypeScript + Tailwind) | Implemented |
-| Shared `packages/*` (ui, auth, eslint-config, etc.) | Planned—`packages/` is reserved |
-| Backend: Prisma / PostgreSQL, Better Auth, billing, RBAC… | Planned—see roadmap below |
+| Area                                                                             | Status                                                                                                                   |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Monorepo (npm workspaces + Turborepo)                                            | Implemented                                                                                                              |
+| App shell: [`apps/web`](./apps/web) (Next.js App Router + TypeScript + Tailwind) | Implemented                                                                                                              |
+| Shared `packages/*`                                                              | In progress: `@scale-kit/tsconfig`, `@scale-kit/eslint-config`, `@scale-kit/utils` (`packages/ui`, `auth`, etc. planned) |
+| Backend: Prisma / PostgreSQL, Better Auth, billing, RBAC…                        | Planned—see roadmap below                                                                                                |
 
 **Stack today (pinned in workspaces):**
 
-- Next.js **16**, React **19**, TypeScript **5**, Tailwind **4**, ESLint (Next preset)
+- Next.js **16**, React **19**, TypeScript **5**, Tailwind **4**, shared ESLint (Next preset via `@scale-kit/eslint-config`), Prettier, Husky + lint-staged
 
 The roadmap below is the project’s stated direction; implementations will land incrementally behind focused PRs.
 
@@ -53,28 +53,28 @@ This section is the **north star** for scope—not a promise that every item shi
 
 ### Product & platform foundations
 
-| Topic | Scope |
-|--------|--------|
-| **Authentication** | Email/password flows, verification, forgot/reset password, sessions, optional social login, multi-session-aware UX |
+| Topic                         | Scope                                                                                                                                           |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Authentication**            | Email/password flows, verification, forgot/reset password, sessions, optional social login, multi-session-aware UX                              |
 | **Multi-tenant architecture** | Organizations as tenants; subdomain-style mental model (`company.scale-kit.example`); isolated users, billing, settings, audit where applicable |
-| **RBAC** | Roles (Owner, Admin, Manager, Support, User) and a reusable permission engine—not scattered `if` checks |
-| **Organizations & teams** | Create org, invites, accept flow, membership, ownership transfer, org switcher |
+| **RBAC**                      | Roles (Owner, Admin, Manager, Support, User) and a reusable permission engine—not scattered `if` checks                                         |
+| **Organizations & teams**     | Create org, invites, accept flow, membership, ownership transfer, org switcher                                                                  |
 
 ### Monetization & product controls
 
-| Topic | Scope |
-|--------|--------|
+| Topic                   | Scope                                                                                                                             |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | **Billing abstraction** | Provider interface (e.g. `createCheckout`, `cancelSubscription`, `getInvoices`) with adapters for Stripe / Lemon Squeezy / Paddle |
-| **Subscription plans** | Free / Pro / Enterprise with limits (features, seats, API usage, storage) |
-| **Feature flags** | Toggle features per plan, tenant, or rollout cohort |
+| **Subscription plans**  | Free / Pro / Enterprise with limits (features, seats, API usage, storage)                                                         |
+| **Feature flags**       | Toggle features per plan, tenant, or rollout cohort                                                                               |
 
 ### Operations, trust, and integrations
 
-| Topic | Scope |
-|--------|--------|
-| **Notifications** | In-app, realtime channels, transactional email triggers |
-| **Audit logs** | Immutable-style trail of sensitive actions with actor, time, IP, device, organization context |
-| **API keys** | Issue, revoke, scope by permission, usage tracking |
+| Topic             | Scope                                                                                         |
+| ----------------- | --------------------------------------------------------------------------------------------- |
+| **Notifications** | In-app, realtime channels, transactional email triggers                                       |
+| **Audit logs**    | Immutable-style trail of sensitive actions with actor, time, IP, device, organization context |
+| **API keys**      | Issue, revoke, scope by permission, usage tracking                                            |
 
 ### UX surface (application)
 
@@ -82,21 +82,21 @@ Landing pages plus app surfaces (marketing, dashboards, billing, settings, notif
 
 ### Cross-cutting systems
 
-| Topic | Scope |
-|--------|--------|
-| **AI-ready layout** | Dedicated areas (e.g. `services/ai/`) for future assistants, summaries, search—without painting the whole app into a corner |
-| **Realtime** | Notifications, live dashboard slices, activity/presence where product needs it |
-| **Errors & logging** | Global boundaries, structured errors, audit-oriented logging hooks |
-| **Internationalization** | English + Arabic with RTL and locale routing |
-| **Theming** | Light / dark / system |
-| **File uploads** | Validated uploads with storage abstraction (S3, Cloudinary, UploadThing, etc.) |
-| **Search** | Global / debounced / server-filtered patterns |
+| Topic                    | Scope                                                                                                                       |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| **AI-ready layout**      | Dedicated areas (e.g. `services/ai/`) for future assistants, summaries, search—without painting the whole app into a corner |
+| **Realtime**             | Notifications, live dashboard slices, activity/presence where product needs it                                              |
+| **Errors & logging**     | Global boundaries, structured errors, audit-oriented logging hooks                                                          |
+| **Internationalization** | English + Arabic with RTL and locale routing                                                                                |
+| **Theming**              | Light / dark / system                                                                                                       |
+| **File uploads**         | Validated uploads with storage abstraction (S3, Cloudinary, UploadThing, etc.)                                              |
+| **Search**               | Global / debounced / server-filtered patterns                                                                               |
 
 ### Engineering quality
 
 - **Testing:** Vitest, React Testing Library, Playwright (tiers by risk)
 - **CI:** GitHub Actions (lint, typecheck, test, build)
-- **Developer hygiene:** ESLint/Prettier, Husky/lint-staged (as we wire them)
+- **Developer hygiene:** ESLint/Prettier, Husky/lint-staged (configured at repo root)
 
 ### Optional / later
 
@@ -122,10 +122,13 @@ Exact folder names may evolve slightly; conventions will stay documented here as
 .
 ├── apps/
 │   └── web/                 # Next.js application (App Router, `src/app`)
-├── packages/               # Workspace packages (reserved; to be populated)
-├── package.json            # Root workspaces + Turborepo scripts
-├── turbo.json              # Pipeline: dev (persistent), build, lint
-└── package-lock.json       # Single lockfile at repo root (npm workspaces)
+├── packages/
+│   ├── eslint-config/       # @scale-kit/eslint-config (flat + eslint-config-next)
+│   ├── tsconfig/            # @scale-kit/tsconfig (base + nextjs JSON)
+│   └── utils/               # @scale-kit/utils (shared TS; build → dist/)
+├── package.json             # Root workspaces + Turborepo scripts
+├── turbo.json               # Pipeline: dev (persistent), build, lint
+└── package-lock.json        # Single lockfile at repo root (npm workspaces)
 ```
 
 ---
@@ -153,11 +156,13 @@ By default Turborepo runs the **`web`** app’s Next dev server (see [`apps/web`
 
 Other root scripts:
 
-| Script | Meaning |
-|--------|---------|
-| `npm run dev` | `turbo dev` |
-| `npm run build` | `turbo build` |
-| `npm run lint` | `turbo lint` |
+| Script                 | Meaning              |
+| ---------------------- | -------------------- |
+| `npm run dev`          | `turbo dev`          |
+| `npm run build`        | `turbo build`        |
+| `npm run lint`         | `turbo lint`         |
+| `npm run format`       | `prettier --write .` |
+| `npm run format:check` | `prettier --check .` |
 
 ### Monorepo note (Next.js + lockfile)
 

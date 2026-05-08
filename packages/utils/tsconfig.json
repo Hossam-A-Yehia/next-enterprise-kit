@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/**/*.ts"]
+}
