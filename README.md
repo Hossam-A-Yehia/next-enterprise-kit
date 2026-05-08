@@ -176,9 +176,3 @@ The root `packageManager` field pins npm for reproducible installs. Using **Yarn
 - Prefer **small, reviewable changes** with clear intent (one concern per PR when possible).
 - Match existing patterns before introducing new abstractions.
 - When adding a major vertical (auth, billing, tenants), update this README’s **Current status** table so visitors stay oriented.
-
----
-
-## License
-
-Unspecified. Add a `LICENSE` file when the project’s legal terms are decided.
