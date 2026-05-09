@@ -32,12 +32,12 @@ We prioritize **maintainability, modularity, and developer experience**. We deli
 
 ## Current status
 
-| Area                                                                             | Status                                                                                                                   |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Monorepo (npm workspaces + Turborepo)                                            | Implemented                                                                                                              |
-| App shell: [`apps/web`](./apps/web) (Next.js App Router + TypeScript + Tailwind) | Implemented                                                                                                              |
-| Shared `packages/*`                                                              | In progress: `@scale-kit/tsconfig`, `@scale-kit/eslint-config`, `@scale-kit/utils` (`packages/ui`, `auth`, etc. planned) |
-| Backend: Prisma / PostgreSQL, Better Auth, billing, RBAC…                        | Planned—see roadmap below                                                                                                |
+| Area                                                                                                                               | Status                                                                                                                   |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Monorepo (npm workspaces + Turborepo)                                                                                              | Implemented                                                                                                              |
+| App shell + UI foundation: [`apps/web`](./apps/web) (Next.js App Router + shadcn design tokens, layout shell, a11y + SEO defaults) | Implemented                                                                                                              |
+| Shared `packages/*`                                                                                                                | In progress: `@scale-kit/tsconfig`, `@scale-kit/eslint-config`, `@scale-kit/utils` (`packages/ui`, `auth`, etc. planned) |
+| Backend: Prisma / PostgreSQL, Better Auth, billing, RBAC…                                                                          | Planned—see roadmap below                                                                                                |
 
 **Stack today (pinned in workspaces):**
 
